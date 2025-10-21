@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrchidCare · Monitoreo</title>
+  <link rel="icon" type="image/png" href="flor-de-cerezo.png" />
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- app.js -->
+   <script src="/js/app.js" defer></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand">
+      <img src="/res/FlorSinFondo.png" alt="Logo"/>
+      <h1>OrchidCare</h1>
+    </div>
+    <nav class="nav">
+      <a href="#inicio" class="active" data-view="inicio"> 
+        <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+        <span>Inicio</span>
+      </a>
+      <a href="#calendario" data-view="calendario">
+        <svg viewBox="0 0 24 24"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2zm13 8H4v10h16V10z"/></svg>
+        <span>Calendario</span>
+      </a>
+      <a href="#sensores" data-view="sensores">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9zm0 4a5 5 0 015 5h-2a3 3 0 10-6 0H7a5 5 0 015-5zm0 6a2 2 0 110 4 2 2 0 010-4z"/></svg>
+        <span>Sensores</span>
+      </a>
+      <a href="#historial" data-view="historial">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 100 18 9 9 0 000-18zm1 9V7h-2v7h5v-2h-3zM4 3h4v2H6v2H4V3z"/></svg>
+        <span>Historial</span>
+      </a>
+      <a href="#bd" data-view="bd">
+        <svg viewBox="0 0 24 24"><path d="M4 6c0-2.2 4-4 8-4s8 1.8 8 4v12c0 2.2-4 4-8 4s-8-1.8-8-4V6zm8-2c-3.3 0-6 .9-6 2s2.7 2 6 2 6-.9 6-2-2.7-2-6-2z"/></svg>
+        <span>Base de Datos</span>
+      </a>
+      <a href="#pruebas" data-view="pruebas">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4l-2-2-8 8-3-3-2 2zm-5 3h14v2H4v-2zm0 4h14v2H4v-2z"/></svg>
+        <span>Pruebas</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <header class="topbar">
+      <div class="breadcrumbs">
+        Panel · OrchidCare <span class="last-update" id="lastUpd">Última actualización: 13:00</span> <span class="pulse"></span>
+      </div>
+      <div class="status"><span class="dot"></span> Conectado</div>
+    </header>
+
+    <!-- INICIO -->
+    <section id="inicio" class="view active">
+      <h2>Resumen</h2>
+      <div class="grid three">
+        <div class="card">
+          <h3><span class="chip"> 
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C8 7 6 9.5 6 12a6 6 0 0012 0c0-2.5-2-5-6-10z"/></svg>
+            Humedad</span></h3>
+          <div class="kpi"><div class="value" id="kpiHum">78%</div><div class="trend" id="kpiTrend">+2% vs ayer</div></div>
+          <div id="alertHum" class="alert hidden">Advertencia: Humedad por sobre 80%. Revisa ventilación.</div>
+          <canvas id="humChart" height="120"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M14 14.76V5a2 2 0 10-4 0v9.76A4 4 0 1014 14.76z"/></svg>
+            Temperatura</span></h3>
+          <div class="kpi"><div class="value">22°C</div><div class="trend">estable</div></div>
+          <canvas id="tempChart" height="120"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2zm13 8H4v10h16V10z"/></svg>
+            Próximos riegos</span></h3>
+          <ul class="list-tight">
+            <li>Lun 07:30 · 15:00 <span class="pill ok">Programado</span></li>
+            <li>Mié 07:30 · 15:00 <span class="pill ok">Programado</span></li>
+            <li>Vie 07:30 · 15:00 <span class="pill warn">Pendiente</span></li>
+          </ul>
+          <div class="row mt-12 ai-center">
+            <svg class="bell" id="bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <span class="muted"> Notificaciones activas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid two mt-22">
+        <div class="card">
+          <h3>Actividad reciente</h3>
+          <table>
+            <thead><tr><th>Hora</th><th>Evento</th><th>Detalle</th></tr></thead>
+            <tbody>
+              <tr><td>12:00</td><td>Lectura</td><td>Humedad 78% (#A1)</td></tr>
+              <tr><td>11:00</td><td>Lectura</td><td>Temp 22°C (#B2)</td></tr>
+              <tr><td>10:30</td><td>Alerta</td><td>HR > 82% en #C3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Estado de sensores</h3>
+          <canvas id="sensPie" height="160"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDARIO -->
+    <section id="calendario" class="view">
+      <h2>Calendario de riego</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Configurar</h3>
+          <div class="segmented" id="dias">
+            <div class="chip">Lun</div><div class="chip">Mar</div><div class="chip">Mié</div>
+            <div class="chip">Jue</div><div class="chip">Vie</div><div class="chip">Sáb</div><div class="chip">Dom</div>
+          </div>
+          <div class="row mt-12">
+            <div class="fx-1">
+              <label>Horas</label>
+              <input class="field" id="horas" placeholder="Ej: 07:30, 15:00" />
+            </div>
+            <div class="w-260">
+              <label>Recordatorio</label>
+              <select class="field" id="recordatorio">
+                <option>10 min antes</option>
+                <option>A la hora exacta</option>
+                <option>Correo (mock)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-12">
+            <button class="btn primary" id="guardarCal">Guardar (Mock)</button>
+            <button class="btn" id="simNoti">Simular Notificación</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Próximas notificaciones</h3>
+          <table>
+            <thead><tr><th>Fecha</th><th>Hora</th><th>Tipo</th><th>Estado</th></tr></thead>
+            <tbody id="tablaNotis">
+              <tr><td>22/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
+              <tr><td>22/10/2025</td><td>15:00</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
+              <tr><td>23/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill warn">Pendiente</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SENSORES -->
+    <section id="sensores" class="view">
+      <h2>Sensores</h2>
+      <div class="grid auto">
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #A1 · Norte</span></h3>
+          <p class="kpi"><span class="value" id="a1val">79%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Wi-Fi">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 18a2 2 0 110 4 2 2 0 010-4zm-6-5l2 2a7 7 0 0110 0l2-2a11 11 0 00-14 0zM3 8l2 2a15 15 0 0114 0l2-2a19 19 0 00-18 0z"/></svg> Wi-Fi · RSSI −61 dBm
+            </span>
+            <span class="pill ok">Online</span>
+          </div>
+          <canvas id="a1line" height="90"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #B2 · Centro</span></h3>
+          <p class="kpi"><span class="value" id="b2val">76%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Bluetooth">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2l4 4-3 3 3 3-4 4V2zm-2 8H6v4h4v-4z"/></svg> BT · Señal media
+            </span>
+            <span class="pill warn">Latencia</span>
+          </div>
+          <canvas id="b2line" height="90"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #C3 · Sur</span></h3>
+          <p class="kpi"><span class="value" id="c3val">81%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Wi-Fi">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 18a2 2 0 110 4 2 2 0 010-4zm-6-5l2 2a7 7 0 0110 0l2-2a11 11 0 00-14 0zM3 8l2 2a15 15 0 0114 0l2-2a19 19 0 00-18 0z"/></svg> Wi-Fi · RSSI −70 dBm
+            </span>
+            <span class="pill bad">Batería baja</span>
+          </div>
+          <canvas id="c3line" height="90"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section id="historial" class="view">
+      <h2>Historial</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Últimas 24 horas</h3>
+          <div class="row mb-10">
+            <div class="w-220">
+              <label>Frecuencia</label>
+              <select class="field" id="freq">
+                <option value="60">Cada 1 hora</option>
+                <option value="30">Cada 30 min</option>
+                <option value="1440">Diario</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="histArea" height="220"></canvas>
+        </div>
+        <div class="card">
+          <h3>Registros</h3>
+          <table>
+            <thead><tr><th>Fecha/Hora</th><th>Sensor</th><th>HR</th><th>Temp</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>21/10/2025 12:00</td><td>#A1</td><td>78%</td><td>22°C</td><td><span class="pill ok">OK</span></td></tr>
+              <tr><td>21/10/2025 11:00</td><td>#B2</td><td>75%</td><td>21°C</td><td><span class="pill ok">OK</span></td></tr>
+              <tr><td>21/10/2025 10:00</td><td>#C3</td><td>82%</td><td>23°C</td><td><span class="pill warn">Alta HR</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- BD -->
+    <section id="bd" class="view">
+      <h2>Base de Datos</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Esquema (conceptual)</h3>
+          <table>
+            <thead><tr><th>Tabla</th><th>Campos</th></tr></thead>
+            <tbody>
+              <tr><td>orquidea</td><td>id (PK), nombre_cientifico, invernadero</td></tr>
+              <tr><td>sensor</td><td>id (PK), tipo, conexion, ubicacion</td></tr>
+              <tr><td>lectura</td><td>id (PK), fecha_hora, humedad, temperatura, sensor_id (FK)</td></tr>
+              <tr><td>calendario_riego</td><td>id (PK), dias_semana, horas, alerta_minutos</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Ejemplo de registro</h3>
+          <table>
+            <thead><tr><th>fecha_hora</th><th>humedad</th><th>temperatura</th><th>sensor_id</th></tr></thead>
+            <tbody>
+              <tr><td>2025-10-21 12:00</td><td>78</td><td>22</td><td>A1</td></tr>
+            </tbody>
+          </table>
+          <div class="pill mt-12">Almacenamiento simulado (solo visual)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRUEBAS -->
+    <section id="pruebas" class="view">
+      <h2>Pruebas del Sistema</h2>
+      <div class="grid auto">
+        <div class="card">
+          <h3>Checklist</h3>
+          <ul class="list-tight">
+            <li><span class="pill ok">•</span> Crear calendario y visualizarlo</li>
+            <li><span class="pill ok">•</span> Notificación programada visible</li>
+            <li><span class="pill ok">•</span> Conectar sensor (Wi-Fi / BT) mostrado</li>
+            <li><span class="pill ok">•</span> HR/Temp visibles en tiempo real</li>
+            <li><span class="pill ok">•</span> Histórico según frecuencia</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Resultados</h3>
+          <table>
+            <thead><tr><th>Prueba</th><th>Resultado</th><th>Observación</th></tr></thead>
+            <tbody>
+              <tr><td>RF1</td><td>OK</td><td>Formulario y guardado (mock)</td></tr>
+              <tr><td>RF2</td><td>OK</td><td>Panel de notificaciones y campana</td></tr>
+              <tr><td>RF3</td><td>OK</td><td>Estados Wi-Fi/BT en tarjetas</td></tr>
+              <tr><td>RF4</td><td>OK</td><td>Alerta visual si HR > 80%</td></tr>
+              <tr><td>RF5</td><td>OK</td><td>Selector de frecuencia</td></tr>
+              <tr><td>RF6</td><td>OK</td><td>Esquema y ejemplo de inserción</td></tr>
+              <tr><td>RF7</td><td>OK</td><td>Gráficos en tiempo real (mock)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lógica -->
+  <script src="app.js"></script>
+</body>
+</html>

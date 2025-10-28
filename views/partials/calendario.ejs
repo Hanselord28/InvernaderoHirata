@@ -1,0 +1,42 @@
+<!-- CALENDARIO -->
+    <section id="calendario" class="view">
+      <h2>Calendario de riego</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Configurar</h3>
+          <div class="segmented" id="dias">
+            <div class="chip">Lun</div><div class="chip">Mar</div><div class="chip">Mié</div>
+            <div class="chip">Jue</div><div class="chip">Vie</div><div class="chip">Sáb</div><div class="chip">Dom</div>
+          </div>
+          <div class="row mt-12">
+            <div class="fx-1">
+              <label>Horas</label>
+              <input class="field" id="horas" placeholder="Ej: 07:30, 15:00" />
+            </div>
+            <div class="w-260">
+              <label>Recordatorio</label>
+              <select class="field" id="recordatorio">
+                <option>10 min antes</option>
+                <option>A la hora exacta</option>
+                <option>Correo (mock)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-12">
+            <button class="btn primary" id="guardarCal">Guardar (Mock)</button>
+            <button class="btn" id="simNoti">Simular Notificación</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Próximas notificaciones</h3>
+          <table>
+            <thead><tr><th>Fecha</th><th>Hora</th><th>Tipo</th><th>Estado</th></tr></thead>
+            <tbody id="tablaNotis">
+              <tr><td>22/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
+              <tr><td>22/10/2025</td><td>15:00</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
+              <tr><td>23/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill warn">Pendiente</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>

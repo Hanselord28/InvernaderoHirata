@@ -1,0 +1,30 @@
+<section id="historial" class="view">
+      <h2>Historial</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Últimas 24 horas</h3>
+          <div class="row mb-10">
+            <div class="w-220">
+              <label>Frecuencia</label>
+              <select class="field" id="freq">
+                <option value="60">Cada 1 hora</option>
+                <option value="30">Cada 30 min</option>
+                <option value="1440">Diario</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="histArea" height="220"></canvas>
+        </div>
+        <div class="card">
+          <h3>Registros</h3>
+          <table>
+            <thead><tr><th>Fecha/Hora</th><th>Sensor</th><th>HR</th><th>Temp</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>21/10/2025 12:00</td><td>#A1</td><td>78%</td><td>22°C</td><td><span class="pill ok">OK</span></td></tr>
+              <tr><td>21/10/2025 11:00</td><td>#B2</td><td>75%</td><td>21°C</td><td><span class="pill ok">OK</span></td></tr>
+              <tr><td>21/10/2025 10:00</td><td>#C3</td><td>82%</td><td>23°C</td><td><span class="pill warn">Alta HR</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>

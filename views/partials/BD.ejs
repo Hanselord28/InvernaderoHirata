@@ -1,0 +1,27 @@
+<section id="bd" class="view">
+      <h2>Base de Datos</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Esquema (conceptual)</h3>
+          <table>
+            <thead><tr><th>Tabla</th><th>Campos</th></tr></thead>
+            <tbody>
+              <tr><td>orquidea</td><td>id (PK), nombre_cientifico, invernadero</td></tr>
+              <tr><td>sensor</td><td>id (PK), tipo, conexion, ubicacion</td></tr>
+              <tr><td>lectura</td><td>id (PK), fecha_hora, humedad, temperatura, sensor_id (FK)</td></tr>
+              <tr><td>calendario_riego</td><td>id (PK), dias_semana, horas, alerta_minutos</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Ejemplo de registro</h3>
+          <table>
+            <thead><tr><th>fecha_hora</th><th>humedad</th><th>temperatura</th><th>sensor_id</th></tr></thead>
+            <tbody>
+              <tr><td>2025-10-21 12:00</td><td>78</td><td>22</td><td>A1</td></tr>
+            </tbody>
+          </table>
+          <div class="pill mt-12">Almacenamiento simulado (solo visual)</div>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,38 @@
+<section id="sensores" class="view">
+      <h2>Sensores</h2>
+      <div class="grid auto">
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #A1 · Norte</span></h3>
+          <p class="kpi"><span class="value" id="a1val">79%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Wi-Fi">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 18a2 2 0 110 4 2 2 0 010-4zm-6-5l2 2a7 7 0 0110 0l2-2a11 11 0 00-14 0zM3 8l2 2a15 15 0 0114 0l2-2a19 19 0 00-18 0z"/></svg> Wi-Fi · RSSI −61 dBm
+            </span>
+            <span class="pill ok">Online</span>
+          </div>
+          <canvas id="a1line" height="90"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #B2 · Centro</span></h3>
+          <p class="kpi"><span class="value" id="b2val">76%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Bluetooth">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2l4 4-3 3 3 3-4 4V2zm-2 8H6v4h4v-4z"/></svg> BT · Señal media
+            </span>
+            <span class="pill warn">Latencia</span>
+          </div>
+          <canvas id="b2line" height="90"></canvas>
+        </div>
+        <div class="card">
+          <h3><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 019 9h-2a7 7 0 10-14 0H3a9 9 0 019-9z"/></svg> #C3 · Sur</span></h3>
+          <p class="kpi"><span class="value" id="c3val">81%</span><span class="trend">HR</span></p>
+          <div class="row">
+            <span class="chip" title="Wi-Fi">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 18a2 2 0 110 4 2 2 0 010-4zm-6-5l2 2a7 7 0 0110 0l2-2a11 11 0 00-14 0zM3 8l2 2a15 15 0 0114 0l2-2a19 19 0 00-18 0z"/></svg> Wi-Fi · RSSI −70 dBm
+            </span>
+            <span class="pill bad">Batería baja</span>
+          </div>
+          <canvas id="c3line" height="90"></canvas>
+        </div>
+      </div>
+    </section>

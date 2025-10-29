@@ -1,5 +1,6 @@
 <!-- CALENDARIO -->
     <section id="calendario" class="view">
+        <script type="module" src="/public/js/calendar.js"></script>
       <h2>Calendario de riego</h2>
       <div class="grid two">
         <div class="card">
@@ -23,8 +24,14 @@
             </div>
           </div>
           <div class="row mt-12">
-            <button class="btn primary" id="guardarCal">Guardar (Mock)</button>
-            <button class="btn" id="simNoti">Simular Notificación</button>
+            <form id="contactForm" class="contact" >
+            <input type="text" name="from_name" placeholder="Usuario" value="Hansel" hidden>
+            <input type="email" name="reply_to" placeholder="Correo" value="Hanselord28@gmail.com" hidden>
+            <textarea name="message" placeholder="Mensaje" hidden>Riego en proceso</textarea>
+        <div id="mailStatus" class="hidden"></div>
+            <button class="btn primary" type="submit" id="guardarCal">Guardar (Mock)</button>
+            <button class="btn" id="simNoti" type="submit">Simular Notificación</button>
+            </form>
           </div>
         </div>
         <div class="card">
@@ -32,11 +39,56 @@
           <table>
             <thead><tr><th>Fecha</th><th>Hora</th><th>Tipo</th><th>Estado</th></tr></thead>
             <tbody id="tablaNotis">
-              <tr><td>22/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
+              <!--<tr><td>22/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
               <tr><td>22/10/2025</td><td>15:00</td><td>Riego</td><td><span class="pill ok">Programada</span></td></tr>
-              <tr><td>23/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill warn">Pendiente</span></td></tr>
+              <tr><td>23/10/2025</td><td>07:30</td><td>Riego</td><td><span class="pill warn">Pendiente</span></td></tr>-->
             </tbody>
           </table>
         </div>
       </div>
+      <br>
+      <div class="card">
+          <h3>Calendario</h3>
+          <div class="calendar-container" ></div>
+        </div>
+
+<!-- ------------------------------------------------------------------------------------------------>
+                        <!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function () {
+    // Tu Public Key (puede ir en el front)
+    emailjs.init('rFIFwdSbNBkCxkPBl');
+  })();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('mailStatus');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.classList.remove('hidden');
+      status.textContent = 'Enviando…';
+
+      // Reemplaza con tus IDs reales de EmailJS
+      const serviceID = 'service_zyheldd';
+      const templateID = 'template_rp1svs4';
+
+      const params = {
+        from_name: form.elements['from_name'].value,
+        reply_to: form.elements['reply_to'].value,
+        message: form.elements['message'].value,
+      };
+
+      try {
+        await emailjs.send(serviceID, templateID, params);
+        status.textContent = '¡Enviado con éxito!';
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Ocurrió un error al enviar. Intenta de nuevo.';
+      }
+    });
+  });
+</script>
     </section>

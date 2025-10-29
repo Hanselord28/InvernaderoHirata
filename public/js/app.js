@@ -118,3 +118,56 @@ document.getElementById('freq').addEventListener('change', (e)=>{
   histChart.data.datasets[0].data = data;
   histChart.update();
 });
+
+
+//-------------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('mailStatus');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.classList.remove('hidden');
+    status.textContent = 'Enviando…';
+
+    // Mapea los campos del form con las variables del template
+    const data = {
+      from_name: form.elements['from_name'].value,
+      reply_to: form.elements['reply_to'].value,
+      message: form.elements['message'].value,
+    };
+
+    try {
+      // Reemplaza con tus IDs
+      const serviceID = 'service_zyheldd';
+      const templateID = 'rFIFwdSbNBkCxkPBl';
+      await emailjs.send(serviceID, templateID, data);
+      status.textContent = '¡Enviado con éxito!';
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      status.textContent = 'Ocurrió un error al enviar. Inténtalo de nuevo.';
+    }
+  });
+});
+//
+
+
+
+const simBtn = document.getElementById('simNoti');
+if (simBtn) {
+  simBtn.addEventListener('click', async () => {
+    try {
+      await emailjs.send('service_zyheldd', 'rFIFwdSbNBkCxkPBl', {
+        from_name: 'OrchidCare',
+        message: 'Nueva alerta: el riego se disparó (+2 min).',
+        reply_to: 'no-reply@orchidcare.local'
+      });
+      console.log('Notificación por correo enviada.');
+    } catch (e) {
+      console.error('Error enviando email', e);
+    }
+  });
+}
